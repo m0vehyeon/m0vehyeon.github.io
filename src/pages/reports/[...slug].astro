@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content';
+import ReportLayout from '../../layouts/ReportLayout.astro';
+
+export async function getStaticPaths() {
+  const reports = await getCollection('reports', ({ data }) => !data.draft);
+  return reports.map((report) => ({
+    params: { slug: report.id },
+    props: { report },
+  }));
+}
+
+const { report } = Astro.props;
+const { Content, headings } = await render(report);
+---
+
+<ReportLayout title={report.data.title} description={report.data.summary} headings={headings}>
+  <Content />
+</ReportLayout>

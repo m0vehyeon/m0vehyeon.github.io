@@ -1,0 +1,121 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  headings: Heading[];
+}
+
+const { title, description, headings } = Astro.props;
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="report-layout">
+    {
+      tocHeadings.length > 0 && (
+        <nav class="toc" aria-label="목차">
+          <details open>
+            <summary>목차</summary>
+            <ol>
+              {tocHeadings.map((h) => (
+                <li class:list={[`depth-${h.depth}`]}>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </details>
+        </nav>
+      )
+    }
+    <article class="report-body">
+      <a class="back-link" href="/">← 목록으로</a>
+      <h1>{title}</h1>
+      <slot />
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .report-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 76ch;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+  .back-link:hover {
+    color: var(--link);
+  }
+
+  .toc {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0 0.9rem;
+  }
+  .toc details {
+    padding: 0.75rem 0;
+  }
+  .toc summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: revert;
+  }
+  .toc ol {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.75rem 0 0;
+  }
+  .toc li {
+    margin: 0.4rem 0;
+    font-size: 0.9rem;
+  }
+  .toc li.depth-3 {
+    padding-left: 1rem;
+    font-size: 0.85rem;
+  }
+  .toc a {
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+  .toc a:hover {
+    color: var(--link);
+  }
+
+  @media (min-width: 1000px) {
+    .report-layout {
+      max-width: 1120px;
+      grid-template-columns: 240px minmax(0, 76ch);
+      align-items: start;
+      gap: 2.5rem;
+    }
+    .toc {
+      position: sticky;
+      top: 2rem;
+      border: none;
+      padding: 0;
+    }
+    .toc summary {
+      display: none;
+    }
+    .toc details {
+      padding: 0;
+    }
+  }
+</style>
