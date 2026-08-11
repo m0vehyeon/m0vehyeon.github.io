@@ -1,6 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+function splitRole(role: string) {
+  const m = role.match(/^(주도|담당|참여)(.*)$/);
+  if (!m) return null;
+  return { word: m[1], cls: m[1] === '주도' ? 'lead' : m[1] === '담당' ? 'own' : 'part', rest: m[2].trim() };
+}
+
 const backgroundFacts = [
   { period: '2015.03 – 2021.02', title: '울산대학교 IT융합학과 학사', desc: '전산/컴퓨터 전공 · 3.67/4.5' },
   { period: '2016.07 – 2018.04', title: '육군 병장 만기제대', desc: '강원도 양구 21사단' },
@@ -244,8 +250,14 @@ const career = [
                 <h3>{p.title}</h3>
                 <span class="career-meta">
                   {p.period}
-                  {p.role && <> · {p.role}</>}
+                  {p.role && !splitRole(p.role) && <> · {p.role}</>}
                 </span>
+                {p.role && splitRole(p.role) && (
+                  <span class={`role-badge role-${splitRole(p.role)!.cls}`}>
+                    {splitRole(p.role)!.word}
+                    {splitRole(p.role)!.rest && <span class="role-extra"> {splitRole(p.role)!.rest}</span>}
+                  </span>
+                )}
               </div>
               <p class="career-item-desc">{p.desc}</p>
               {p.tasks.length > 0 && (
@@ -275,8 +287,14 @@ const career = [
                 <h3>{p.title}</h3>
                 <span class="career-meta">
                   {p.period}
-                  {p.role && <> · {p.role}</>}
+                  {p.role && !splitRole(p.role) && <> · {p.role}</>}
                 </span>
+                {p.role && splitRole(p.role) && (
+                  <span class={`role-badge role-${splitRole(p.role)!.cls}`}>
+                    {splitRole(p.role)!.word}
+                    {splitRole(p.role)!.rest && <span class="role-extra"> {splitRole(p.role)!.rest}</span>}
+                  </span>
+                )}
               </div>
               <p class="career-item-desc">{p.desc}</p>
               {p.tasks.length > 0 && (
@@ -479,6 +497,36 @@ const career = [
   .career-meta {
     font-size: 0.82rem;
     color: var(--fg-muted);
+  }
+  .role-badge {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.12rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+  .role-badge.role-lead {
+    color: var(--link);
+    background: color-mix(in srgb, var(--link) 14%, transparent);
+    border-color: color-mix(in srgb, var(--link) 30%, transparent);
+  }
+  .role-badge.role-own {
+    color: var(--fg);
+    background: color-mix(in srgb, var(--fg) 8%, transparent);
+    border-color: var(--border);
+  }
+  .role-badge.role-part {
+    color: var(--fg-muted);
+    background: transparent;
+    border-color: var(--border);
+  }
+  .role-extra {
+    font-weight: 400;
+    opacity: 0.85;
   }
   .career-item-desc {
     margin: 0 0 0.5rem;
