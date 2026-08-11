@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --bg: #0a0e14;
   --bg-elevated: #10161f;
   --fg: #e6edf3;
@@ -6,7 +7,7 @@
   --border: #1f2733;
   --code-bg: #0f1520;
   --quote-bg: #0f1520;
-  --link: #2dd4bf;
+  --link: var(--accent);
   --link-hover: #5eead4;
   --accent: #2dd4bf;
   --accent-soft: rgba(45, 212, 191, 0.14);
@@ -126,7 +127,7 @@ svg {
 }
 
 .report-body code {
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.9em;
 }
 
