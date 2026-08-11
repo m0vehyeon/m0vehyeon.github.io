@@ -234,6 +234,52 @@ const career = [
     stats: [],
   },
 ];
+
+const skills = [
+  {
+    category: 'Agent / LLM',
+    items: [
+      'Agent Loop·Tool Registry·Policy·Executor',
+      'Skill 규격',
+      'Tool 계약',
+      'Safety Filter',
+      'OpenHands SDK',
+      'Claude Code',
+      'Codex',
+      'MCP',
+      'MLflow',
+    ],
+  },
+  {
+    category: 'Android',
+    items: [
+      'Kotlin',
+      'Jetpack Compose',
+      'Glance',
+      'ProtoLayout',
+      'MVVM/MVI',
+      'Hilt',
+      'Coroutines/Flow',
+      'Room',
+      'ObjectBox',
+      'WorkManager',
+      'Retrofit',
+      'Ktor',
+    ],
+  },
+  {
+    category: 'Web / Cross-platform',
+    items: ['TypeScript', 'React', 'React Native', 'Expo', 'Redux Toolkit', 'Zustand', 'TanStack Query'],
+  },
+  {
+    category: 'Data / Cloud',
+    items: ['Python', 'PySpark', 'Apache Airflow(MWAA)', 'AWS EMR·S3·Athena·Glue·RDS', 'Supabase'],
+  },
+  {
+    category: '검증 / 도구',
+    items: ['ADB', 'Android Instrumentation', 'Jest', 'Vitest', 'GitHub Actions', 'YAML/JSON Schema'],
+  },
+];
 ---
 
 <BaseLayout title="이동현 — Android / AI Agent Engineer">
@@ -366,28 +412,20 @@ const career = [
 
     <section id="skills" class="skills" data-reveal aria-labelledby="skills-h">
       <h2 id="skills-h">기술 스택</h2>
-      <dl class="skill-grid">
-        <div>
-          <dt>Agent / LLM</dt>
-          <dd>Agent Loop·Tool Registry·Policy·Executor, Skill 규격, Tool 계약, Safety Filter, OpenHands SDK, Claude Code, Codex, MCP, MLflow</dd>
-        </div>
-        <div>
-          <dt>Android</dt>
-          <dd>Kotlin, Jetpack Compose, Glance, ProtoLayout, MVVM/MVI, Hilt, Coroutines/Flow, Room, ObjectBox, WorkManager, Retrofit, Ktor</dd>
-        </div>
-        <div>
-          <dt>Web / Cross-platform</dt>
-          <dd>TypeScript, React, React Native, Expo, Redux Toolkit, Zustand, TanStack Query</dd>
-        </div>
-        <div>
-          <dt>Data / Cloud</dt>
-          <dd>Python, PySpark, Apache Airflow(MWAA), AWS EMR·S3·Athena·Glue·RDS, Supabase</dd>
-        </div>
-        <div>
-          <dt>검증 / 도구</dt>
-          <dd>ADB, Android Instrumentation, Jest, Vitest, GitHub Actions, YAML/JSON Schema</dd>
-        </div>
-      </dl>
+      <div class="skill-grid">
+        {
+          skills.map((group) => (
+            <div class="skill-card">
+              <h3>{group.category}</h3>
+              <ul class="tag-list">
+                {group.items.map((item) => (
+                  <li class="tag">{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
     </section>
 
     <footer id="contact" class="contact" data-reveal>
@@ -687,21 +725,22 @@ const career = [
   }
 
   .skill-grid {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
   }
-  .skill-grid dt {
+  .skill-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+  .skill-card h3 {
+    margin: 0 0 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     font-weight: 600;
-    font-size: 0.88rem;
-    margin-bottom: 0.2rem;
-  }
-  .skill-grid dd {
-    margin: 0;
-    color: var(--fg-muted);
-    font-size: 0.9rem;
-    line-height: 1.6;
+    color: var(--fg);
   }
 
   .contact {
