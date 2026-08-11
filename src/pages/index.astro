@@ -1,13 +1,100 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const background = [
+  { period: '2015.03 – 2021.02', title: '울산대학교 IT융합학과 학사', desc: '전산/컴퓨터 전공 · 3.67/4.5' },
+  { period: '2016.07 – 2018.04', title: '육군 병장 만기제대', desc: '' },
+  {
+    period: '2020.04 – 2020.05',
+    title: '네이버 캠퍼스 핵데이',
+    desc: '현직자 멘토와 팀 프로젝트 — Kotlin + ML로 음성인식 텍스트에서 일정을 추출해 구글 캘린더에 등록하는 Android 앱 개발',
+  },
+  {
+    period: '2020.05 – 2020.11',
+    title: '한이음 ICT 멘토링',
+    desc: 'Python으로 여행지 데이터 수집·크롤링 → Firebase 저장 → AWS EC2 + crontab 자동 갱신, 거리·추천순 스케줄링 알고리즘을 직접 구현한 자동 여행 스케줄링 Android 앱',
+  },
+  { period: '2020.06 – 2020.08', title: 'POSCO 청년 AI-Bigdata 아카데미', desc: '8개 팀 중 프로젝트 최우수상' },
+  { period: '2020.08', title: '정보처리기사 취득', desc: '' },
+  { period: '2021.01 – 2021.03', title: '삼성 청년 SW아카데미(SSAFY)', desc: '알고리즘·Java·웹 프로젝트' },
+];
+
+const career = [
+  {
+    title: 'Agent 연동 자동화 DevKit',
+    period: '2026.08 – 현재',
+    role: '주도',
+    stack: 'Java, CLI, YAML/JSON Schema, ADB, Android Instrumentation',
+    desc: '플러그인 기능 조사부터 계약 생성·승인·연동 코드 생성·실기기 검증까지 자동화하는 5단계 DevKit workflow를 설계·개발했습니다. 기능 후보 92개 중 19개를 Agent operation으로 계약화하고 195개 E2E 시나리오로 검증했습니다.',
+  },
+  {
+    title: 'Android 네이티브 AI Agent Runtime',
+    period: '2026.05 – 현재',
+    role: '담당',
+    stack: 'Kotlin, Jetpack Compose, Hilt, Coroutines/Flow, Ktor, ObjectBox, WorkManager',
+    desc: '자연어 요청을 분석해 플러그인을 탐색·실행하는 Agent Runtime을 개발했습니다. OpenHands SDK 분석을 벤치마킹해 Skill 규격(Tool 8개, SKILL.md 34개)을 설계했고, 7종 플러그인 연동을 검증하며 모델 비교로 실행 성공률을 75%→100%로 개선했습니다.',
+  },
+  {
+    title: '자연어 기반 생성형 앱 플랫폼',
+    period: '2026.02 – 2026.05',
+    role: '담당 (하네스 엔지니어링은 참여)',
+    stack: 'TypeScript, React Native, Expo, Kotlin, WorkManager',
+    desc: '자연어로 앱을 생성·수정하는 React Native 플랫폼을 개발했습니다. App Player·Safety Filter·API 연동을 담당했고, 200건 평가 corpus로 Safety Filter 정확도 99.9% 이상을 확인, 모델 비교로 생성 시간을 약 24.9% 단축했습니다.',
+  },
+  {
+    title: '온디바이스 AI 기능 검증 자동화 도구',
+    period: '2024.02 – 2025.01',
+    role: '담당',
+    stack: 'Python, PyQt5, ADB, OpenCV',
+    desc: '온디바이스 AI 기능을 자동 검증하는 Python GUI 도구를 개발했습니다. 테스트 실행부터 평가·리포트 생성까지 자동화했고, 4종 AI 기능을 3개 OS·3개 테스트 모드로 지원했습니다.',
+  },
+  {
+    title: '생성형 AI 프롬프트 개발·검증 웹 플랫폼',
+    period: '2023.12 – 2025',
+    role: '담당',
+    stack: 'TypeScript, React, Redux Toolkit, SSE',
+    desc: '생성형 AI 모델·프롬프트를 개발·검증하는 사내 웹 플랫폼을 개발했습니다. LLM 기반 결과 평가, 3개 모델 계열 비교, 멀티모달 기능을 구현하고 JavaScript 코드를 TypeScript로 전환했습니다.',
+  },
+  {
+    title: '게임 서비스 로그 분석 파이프라인',
+    period: '2022.10 – 2023.05',
+    role: '참여',
+    stack: 'Python, Apache Airflow, PySpark, AWS EMR/S3/Athena',
+    desc: '대규모 게임 로그를 분석 데이터로 변환하는 Airflow 파이프라인을 동료와 함께 개발·운영했습니다. 중복 작업 제거로 월 약 270시간 EMR 실행 시간, 일일 약 2.1TB S3 사용량을 절감했고 GDPR 처리 시간을 약 42% 단축했습니다.',
+  },
+  {
+    title: '단말 성능 데이터 이관·정제 파이프라인',
+    period: '2022.10 – 2023.05',
+    role: '담당',
+    stack: 'Python, Apache Airflow, PySpark, AWS RDS/S3',
+    desc: '출시 전 단말 성능 데이터를 안전하게 활용하도록 Cross-account 이관·개인정보 정제 파이프라인을 개발했습니다.',
+  },
+  {
+    title: '그 외 Android 프로젝트',
+    period: '2024.03 – 2026.03',
+    role: '주도/담당/참여',
+    stack: 'Kotlin, Jetpack Compose, Glance, MVVM',
+    desc: 'AI 기능 사용 데이터 수집·분석 시스템(담당), LLM 생성 정보 Widget POC(주도), FlipShot 커버 디스플레이 콘텐츠 편집(참여), GalaxyToShare 설정 공유·복원 앱(담당), Routine 프리셋 갤러리(주도)를 개발했습니다.',
+  },
+  {
+    title: '입문 교육 및 CXI실 파견',
+    period: '2021.09 – 2022.09',
+    role: '',
+    stack: '',
+    desc: '입사 후 사내 입문·개발자 교육을 이수하고, CXI실에 파견되어 갤럭시 고객경험 관련 업무를 수행했습니다.',
+  },
+];
 ---
 
-<BaseLayout title="이동현 — Agent Runtime / Harness Engineering">
+<BaseLayout title="이동현 — Android / AI Agent Engineer">
+  <nav class="quicknav" aria-label="섹션 이동">
+    <a href="#background">배경</a>
+    <a href="#career">경력</a>
+    <a href="#personal">개인 프로젝트</a>
+    <a href="#skills">기술 스택</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
   <main>
     <section class="hero" data-reveal>
       <h1>이동현</h1>
@@ -18,47 +105,122 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
       </p>
     </section>
 
-    <section class="reports" aria-label="리포트 목록">
-      <ul class="report-list">
+    <section id="background" class="background" data-reveal aria-labelledby="background-h">
+      <h2 id="background-h">배경 <span class="section-sub">입사 전, 2015 – 2021</span></h2>
+      <ul class="bg-list">
         {
-          reports.map((report) => (
+          background.map((item) => (
             <li>
-              <a href={`/reports/${report.id}`}>
-                <span class="report-proves">{report.data.proves}</span>
-                <span class="report-title">{report.data.title}</span>
-                <span class="report-summary">{report.data.summary}</span>
-              </a>
+              <span class="bg-period">{item.period}</span>
+              <span class="bg-body">
+                <strong>{item.title}</strong>
+                {item.desc && <span class="bg-desc"> — {item.desc}</span>}
+              </span>
             </li>
           ))
         }
       </ul>
     </section>
 
-    <section class="career" data-reveal aria-label="경력">
-      <h2>경력</h2>
-      <p class="career-org">삼성전자 MX사업부 · 2021.09 ~ 현재</p>
-      <p class="career-path">
-        데이터 파이프라인 → AI 기능 검증 자동화 → Android 앱 → 생성형 앱 플랫폼 → Android 네이티브 AI Agent Runtime
+    <section id="career" class="career" data-reveal aria-labelledby="career-h">
+      <h2 id="career-h">경력 <span class="section-sub">삼성전자 MX사업부 · 2021.09 – 현재 (약 5년)</span></h2>
+      <p class="career-note">
+        미출시·사내 전용 프로젝트는 코드네임 대신 일반명으로 표기했습니다. 최신순입니다.
       </p>
-      <p class="career-desc">
-        UI부터 API·데이터 계층·네이티브 연동·검증 자동화까지 제품 전반을 개발했습니다.{' '}
-        <a href="/reports/career-detail">13개 프로젝트 전체 역할·성과 보기 →</a>
-      </p>
+      <ol class="career-list">
+        {
+          career.map((p) => (
+            <li>
+              <div class="career-item-head">
+                <h3>{p.title}</h3>
+                <span class="career-meta">
+                  {p.period}
+                  {p.role && <> · {p.role}</>}
+                </span>
+              </div>
+              <p class="career-item-desc">{p.desc}</p>
+              {p.stack && <p class="career-item-stack">{p.stack}</p>}
+            </li>
+          ))
+        }
+      </ol>
     </section>
 
-    <footer class="contact" data-reveal>
+    <section id="personal" class="personal" data-reveal aria-labelledby="personal-h">
+      <h2 id="personal-h">개인 프로젝트</h2>
+      <div class="personal-item">
+        <div class="career-item-head">
+          <h3>Daeng — 트렌드 콘텐츠 서비스</h3>
+          <span class="career-meta">2026.07 – 현재</span>
+        </div>
+        <p class="career-item-desc">
+          Claude Code와 Codex를 병행해 개발 중인 개인 프로젝트입니다. 계층형 에이전트 지침 설계, 병렬 에이전트 실행 가드,
+          326개 Tool 실행 정책과 SHA-256 기반 Skill 공급망 관리, spec→plan→검증 루프(스펙 49건·플랜 53건)를 구축했고,
+          제품 파이프라인에서 Claude를 subprocess로 호출해 트렌드 스크리닝을 자동화했습니다. pnpm 모노레포, 약 5주간 434커밋.
+        </p>
+        <p class="career-item-stack">TypeScript, pnpm workspace, React Native/Expo, Supabase(RLS), Vitest, Claude Code, Codex, MCP</p>
+      </div>
+    </section>
+
+    <section id="skills" class="skills" data-reveal aria-labelledby="skills-h">
+      <h2 id="skills-h">기술 스택</h2>
+      <dl class="skill-grid">
+        <div>
+          <dt>Agent / LLM</dt>
+          <dd>Agent Loop·Tool Registry·Policy·Executor, Skill 규격, Tool 계약, Safety Filter, OpenHands SDK, Claude Code, Codex, MCP, MLflow</dd>
+        </div>
+        <div>
+          <dt>Android</dt>
+          <dd>Kotlin, Jetpack Compose, Glance, ProtoLayout, MVVM/MVI, Hilt, Coroutines/Flow, Room, ObjectBox, WorkManager, Retrofit, Ktor</dd>
+        </div>
+        <div>
+          <dt>Web / Cross-platform</dt>
+          <dd>TypeScript, React, React Native, Expo, Redux Toolkit, Zustand, TanStack Query</dd>
+        </div>
+        <div>
+          <dt>Data / Cloud</dt>
+          <dd>Python, PySpark, Apache Airflow(MWAA), AWS EMR·S3·Athena·Glue·RDS, Supabase</dd>
+        </div>
+        <div>
+          <dt>검증 / 도구</dt>
+          <dd>ADB, Android Instrumentation, Jest, Vitest, GitHub Actions, YAML/JSON Schema</dd>
+        </div>
+      </dl>
+    </section>
+
+    <footer id="contact" class="contact" data-reveal>
       <a href="mailto:ehdgus4166@gmail.com">ehdgus4166@gmail.com</a>
-      <span aria-hidden="true">·</span>
-      <a href="https://github.com/m0vehyeon" target="_blank" rel="noopener noreferrer">GitHub</a>
     </footer>
   </main>
 </BaseLayout>
 
 <style>
+  .quicknav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.9rem 1.25rem;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .quicknav a {
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+  .quicknav a:hover {
+    color: var(--link);
+  }
+
   main {
     max-width: 72ch;
     margin: 0 auto;
-    padding: 4.5rem 1.25rem 5rem;
+    padding: 3rem 1.25rem 5rem;
   }
 
   .hero {
@@ -81,80 +243,112 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
     line-height: 1.7;
   }
 
-  .reports {
-    margin-bottom: 3.5rem;
-  }
-  .report-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .report-list a {
-    display: block;
-    padding: 1.25rem 1.4rem;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--fg);
-    transition: border-color 0.15s ease, transform 0.15s ease;
-  }
-  .report-list a:hover {
-    border-color: var(--link);
-    transform: translateY(-1px);
-  }
-  .report-proves {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--link);
-    margin-bottom: 0.5rem;
-  }
-  .report-title {
-    display: block;
-    font-weight: 600;
-    font-size: 1.05rem;
-    margin-bottom: 0.35rem;
-  }
-  .report-summary {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--fg-muted);
-  }
-
-  .career {
+  section {
     margin-bottom: 3.5rem;
     padding-top: 2rem;
     border-top: 1px solid var(--border);
+    scroll-margin-top: 4rem;
   }
-  .career h2 {
-    font-size: 1.1rem;
+  section h2 {
+    font-size: 1.2rem;
     margin: 0 0 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
   }
-  .career-org {
-    font-weight: 600;
-    margin: 0 0 0.6rem;
-  }
-  .career-path {
+  .section-sub {
+    font-size: 0.85rem;
+    font-weight: 400;
     color: var(--fg-muted);
-    margin: 0 0 0.6rem;
-    line-height: 1.7;
   }
-  .career-desc {
-    color: var(--fg-muted);
+
+  .bg-list {
+    list-style: none;
     margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .bg-list li {
+    display: flex;
+    gap: 1rem;
+    line-height: 1.6;
+  }
+  .bg-period {
+    flex: 0 0 9.5rem;
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+  }
+  .bg-body {
+    color: var(--fg);
+  }
+  .bg-desc {
+    color: var(--fg-muted);
+  }
+
+  .career-note {
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    margin: 0 0 1.5rem;
+  }
+  .career-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+  .career-item-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.8rem;
+    margin-bottom: 0.35rem;
+  }
+  .career-item-head h3 {
+    margin: 0;
+    font-size: 1.02rem;
+  }
+  .career-meta {
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+  }
+  .career-item-desc {
+    margin: 0 0 0.35rem;
+    color: var(--fg-muted);
     line-height: 1.7;
   }
-  .career-desc a {
-    color: var(--link);
-    text-decoration: none;
-    white-space: nowrap;
+  .career-item-stack {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--fg-muted);
+    opacity: 0.8;
   }
-  .career-desc a:hover {
-    text-decoration: underline;
+
+  .personal-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .skill-grid {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .skill-grid dt {
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.2rem;
+  }
+  .skill-grid dd {
+    margin: 0;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
   }
 
   .contact {
@@ -205,15 +399,16 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
       });
     });
 
-    const cards = document.querySelectorAll('.report-list li');
-    gsap.set(cards, { opacity: 0, y: 16 });
-    gsap.to(cards, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power2.out',
-      scrollTrigger: { trigger: '.report-list', start: 'top 85%', once: true },
+    const items = document.querySelectorAll('.career-list > li, .bg-list > li');
+    gsap.set(items, { opacity: 0, y: 12 });
+    items.forEach((el) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+      });
     });
   }
 </script>
