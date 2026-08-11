@@ -9,15 +9,22 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
 
 <BaseLayout title="이동현 — Agent Runtime / Harness Engineering">
   <main>
-    <h1>이동현</h1>
-    <p class="lede">Agent Runtime과 Harness를 만듭니다.</p>
+    <section class="hero" data-reveal>
+      <h1>이동현</h1>
+      <p class="role">Agent Runtime과 Harness를 만듭니다</p>
+      <p class="lede">
+        LLM 에이전트가 복잡한 작업을 끝까지 안정적으로 수행하게 만드는 일에 관심이 있습니다.
+        Agent Loop·Tool 계약·Skill 규격을 설계하고, 그 동작을 반복 검증하는 평가 환경을 함께 만들어 왔습니다.
+      </p>
+    </section>
 
-    <section aria-label="리포트 목록">
+    <section class="reports" aria-label="리포트 목록">
       <ul class="report-list">
         {
           reports.map((report) => (
             <li>
               <a href={`/reports/${report.id}`}>
+                <span class="report-proves">{report.data.proves}</span>
                 <span class="report-title">{report.data.title}</span>
                 <span class="report-summary">{report.data.summary}</span>
               </a>
@@ -26,21 +33,55 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
         }
       </ul>
     </section>
+
+    <section class="career" data-reveal aria-label="경력">
+      <h2>경력</h2>
+      <p class="career-org">삼성전자 MX사업부 · 2021.09 ~ 현재</p>
+      <p class="career-path">
+        데이터 파이프라인 → AI 기능 검증 자동화 → Android 앱 → 생성형 앱 플랫폼 → Android 네이티브 AI Agent Runtime
+      </p>
+      <p class="career-desc">
+        UI부터 API·데이터 계층·네이티브 연동·검증 자동화까지 제품 전반을 개발했습니다.
+      </p>
+    </section>
+
+    <footer class="contact" data-reveal>
+      <a href="mailto:ehdgus4166@gmail.com">ehdgus4166@gmail.com</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://github.com/m0vehyeon" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </footer>
   </main>
 </BaseLayout>
 
 <style>
   main {
-    max-width: 68ch;
+    max-width: 72ch;
     margin: 0 auto;
-    padding: 3rem 1.25rem 5rem;
+    padding: 4.5rem 1.25rem 5rem;
   }
-  h1 {
-    margin: 0 0 0.25rem;
+
+  .hero {
+    margin-bottom: 3.5rem;
+  }
+  .hero h1 {
+    margin: 0 0 0.5rem;
+    font-size: 2.4rem;
+  }
+  .role {
+    margin: 0 0 1.25rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--link);
   }
   .lede {
+    margin: 0;
     color: var(--fg-muted);
-    margin: 0 0 2.5rem;
+    max-width: 62ch;
+    line-height: 1.7;
+  }
+
+  .reports {
+    margin-bottom: 3.5rem;
   }
   .report-list {
     list-style: none;
@@ -52,18 +93,29 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
   }
   .report-list a {
     display: block;
-    padding: 1.1rem 1.25rem;
+    padding: 1.25rem 1.4rem;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 10px;
     text-decoration: none;
     color: var(--fg);
+    transition: border-color 0.15s ease, transform 0.15s ease;
   }
   .report-list a:hover {
     border-color: var(--link);
+    transform: translateY(-1px);
+  }
+  .report-proves {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--link);
+    margin-bottom: 0.5rem;
   }
   .report-title {
     display: block;
     font-weight: 600;
+    font-size: 1.05rem;
     margin-bottom: 0.35rem;
   }
   .report-summary {
@@ -71,4 +123,88 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
     font-size: 0.9rem;
     color: var(--fg-muted);
   }
+
+  .career {
+    margin-bottom: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .career h2 {
+    font-size: 1.1rem;
+    margin: 0 0 1rem;
+  }
+  .career-org {
+    font-weight: 600;
+    margin: 0 0 0.6rem;
+  }
+  .career-path {
+    color: var(--fg-muted);
+    margin: 0 0 0.6rem;
+    line-height: 1.7;
+  }
+  .career-desc {
+    color: var(--fg-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  .contact {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .contact a {
+    color: var(--fg-muted);
+  }
+  .contact a:hover {
+    color: var(--link);
+  }
+
+  [data-reveal] {
+    opacity: 1;
+  }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import Lenis from 'lenis';
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReducedMotion) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const lenis = new Lenis({ duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 3) });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    const targets = document.querySelectorAll('[data-reveal]');
+    gsap.set(targets, { opacity: 0, y: 24 });
+    targets.forEach((el) => {
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+      });
+    });
+
+    const cards = document.querySelectorAll('.report-list li');
+    gsap.set(cards, { opacity: 0, y: 16 });
+    gsap.to(cards, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: '.report-list', start: 'top 85%', once: true },
+    });
+  }
+</script>
