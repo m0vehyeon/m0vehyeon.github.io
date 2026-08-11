@@ -297,7 +297,13 @@ const career = [
                   ))}
                 </ul>
               )}
-              {p.stack && <p class="career-item-stack">{p.stack}</p>}
+              {p.stack && (
+                <ul class="tag-list">
+                  {p.stack.split(', ').map((tag) => (
+                    <li class="tag">{tag}</li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
@@ -345,7 +351,13 @@ const career = [
                 </ul>
               )}
               {p.result && <p class="career-item-result">{p.result}</p>}
-              {p.stack && <p class="career-item-stack">{p.stack}</p>}
+              {p.stack && (
+                <ul class="tag-list">
+                  {p.stack.split(', ').map((tag) => (
+                    <li class="tag">{tag}</li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
@@ -656,11 +668,22 @@ const career = [
     font-size: 0.72rem;
     color: var(--fg-muted);
   }
-  .career-item-stack {
+  .tag-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
     margin: 0;
-    font-size: 0.8rem;
+    padding: 0;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
     color: var(--fg-muted);
-    opacity: 0.8;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
   }
 
   .skill-grid {
