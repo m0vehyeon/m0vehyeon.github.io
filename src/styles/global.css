@@ -104,16 +104,14 @@ svg {
   margin-bottom: 0;
 }
 
-/* Shiki 듀얼 테마 — Astro는 --shiki-dark 변수만 주입하고 적용 규칙은 주입하지 않는다 */
-@media (prefers-color-scheme: dark) {
-  .astro-code,
-  .astro-code span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
+/* Shiki 다크 테마 — 이제 다크 전용이므로 항상 적용 */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
 /* 코드블록 — 가로 스크롤 허용, 본문은 절대 넘치지 않게 */
