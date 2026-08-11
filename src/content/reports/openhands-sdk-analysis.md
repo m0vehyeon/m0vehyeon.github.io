@@ -291,35 +291,30 @@ CODE_STATE / TESTS / CHANGES / DEPS / VERSION_CONTROL_STATUS
 
 ## 6. 온디바이스 Android Agent Runtime 관점의 도입 판단
 
-> 이 절이 분석의 실질이다. "무엇을 봤다"가 아니라 "무엇을 가져오고 무엇을 버렸는가".
+> 이 절이 분석의 실질이다. "무엇을 봤다"가 아니라 "무엇을 가져오고 무엇을 버렸는가". 아래는 실제로 사내 온디바이스 Agent Runtime 설계에 반영한 내용이다.
 
-### 채택할 것
+### 채택 — 반영한 것
 
-| 항목 | 이유 |
+| OpenHands 개념 | 온디바이스 Agent Runtime에 반영한 것 |
 |---|---|
-| **Action / Observation 이벤트 쌍 + 추가 전용 로그** | 재현성과 사후 분석이 하네스 개선의 전제. Android에서는 ObjectBox·Room으로 구현 가능 |
-| **Tool usability 판정** | 플러그인 설치 여부·버전·capability가 단말마다 다른 온디바이스 환경에서 필수. 3절의 Tool 계약 관찰과 같은 결론 |
-| **Risk 판정과 승인 정책의 분리** | `SecurityRisk`(무엇이 위험한가)와 `ConfirmationPolicy`(언제 물을 것인가)를 분리하면 정책만 교체 가능. 설정 변경처럼 되돌리기 어려운 작업이 많은 온디바이스에서 특히 유효 |
-| **StuckDetector** | 온디바이스는 배터리·발열·토큰 비용이 직접적이라 정체 감지 가치가 서버보다 크다. 임계값 설정형 5패턴 구조를 그대로 참고 가능 |
-| **Skill 리소스 분리 (점진적 공개)** | 컨텍스트 예산이 더 빡빡한 온디바이스에 그대로 유효 |
-| **선언적 에이전트 정의의 반복 상한·비용 예산** | 무한 루프와 비용 폭주를 선언으로 막는 방식 |
+| Action / Observation 이벤트 쌍 | Tool 호출 요청과 실행 결과를 구조화된 이벤트로 만들어 다음 LLM 요청에 다시 투영 |
+| 추가 전용 이벤트 로그 + replay 기반 복구 | 이벤트를 순차 저장하고, 프로세스·UI 생명주기와 분리된 백그라운드 실행에서 저장된 이벤트를 재생해 상태를 복원 |
+| Tool Registry + usability 판정 | 이름·설명·JSON schema와 실행 함수를 분리한 Tool Registry로 Built-in Tool을 관리하고, 플러그인별 capability를 조회해 지원되는 값만 적용 |
+| Tool 실행 정책(허용·거부·사용자 확인·배치) | 정책 엔진과 배치 코디네이터로 Tool 실행 승인·연속 실행 정책을 분류 |
+| Skill 목록 우선·본문 지연 로딩 | Skill 목록에서는 name·description 중심 요약만 노출하고, 선택된 Skill만 본문을 지연 로딩해 context 사용량 절감 |
+| Skill metadata 정합성 검증 | frontmatter(name·description·version·allowed-tools)와 디렉터리명 일치 여부를 검증 |
+| LLM 추상화 / function calling 정규화 | OpenAI 호환 message·Tool schema와 SSE 응답을 내부 모델로 정규화하는 계층을 분리 |
+| 신뢰 경계가 확인된 대상만 실행 | 설치 여부·동일 서명 검증을 통과한 플러그인의 Skill만 읽고, 쓰기 작업은 정책에 따라 사용자 승인 후 실행 |
 
-### 변형해서 가져올 것
+### 채택하지 않은 것과 이유
 
-| 항목 | 변형 이유 |
+| OpenHands 개념 | 채택하지 않은 이유 |
 |---|---|
-| **Condenser** | 요약을 LLM 호출로 수행한다. 온디바이스에서 압축마다 추가 추론은 지연·전력 부담이 크다 → 규칙 기반 요약 또는 소형 온디바이스 모델, 혹은 서버 위임으로 대체 검토. 단 `minimum_progress`·soft/hard 트리거 구분은 그대로 유효 |
-| **선언적 정의의 배포 경로** | 파일시스템 기반 마크다운 로딩을 전제한다. Android에서는 APK 리소스 또는 ContentProvider를 통한 배포로 바꿔야 함 |
-| **MCP** | stdio/HTTP MCP 서버를 단말에서 띄우는 건 현실적이지 않다 → ContentProvider IPC가 같은 역할(외부 능력 편입)을 대신. 다만 **MCP 스키마와의 양방향 변환 발상**은 유지할 가치가 있음 |
-| **Workspace 샌드박스** | Docker·Apptainer 전제. Android는 앱 샌드박스와 권한 모델이 이미 격리를 제공하므로 그 층으로 대체 |
-
-### 채택하지 않을 것
-
-| 항목 | 이유 |
-|---|---|
-| **Remote Conversation / Agent Server** | 온디바이스 단독 실행이 목적이면 불필요한 복잡도 |
-| **이벤트 로그 전량 영구 보존** | 모바일 저장 공간 제약. 보존 기간·용량 상한과 폐기 정책이 먼저 필요 |
-| **LLM 기반 security analyzer** | 액션마다 위험도 판정용 추가 LLM 호출은 온디바이스에서 비현실적 → 정적 규칙 + capability 화이트리스트로 대체 |
+| 키워드·작업유형 기반 자동 트리거 주입 | 누가 켤 수 있는지, 어떤 조건에서 실행되는지 불명확해질 수 있어 배제. 대신 플러그인 목록 탐색 → Skill 요약 조회 → LLM이 선택하는 흐름으로 설계 |
+| 파일시스템 기반 Skill 로딩 | 모바일 신뢰 경계에 맞춰, 설치·서명 검증을 통과한 대상만 접근하는 명시적 allowlist 방식으로 대체 |
+| Condenser(LLM 기반 컨텍스트 요약 압축) | 저장된 이벤트를 다시 message로 투영하는 구조로 충분하다고 판단. 온디바이스에서 압축마다 추가 추론 호출이 드는 지연·전력 비용도 고려 |
+| Subagent delegation | 짧고 승인 가능한 Tool chain이 핵심인 작업 범위라 단일 Agent Loop + 배치 코디네이터로 충분하다고 판단, 하위 에이전트 위임은 배제 |
+| 범용 Local / Remote Workspace | 앱 내부 Runtime과 정해진 실행 대상으로 고정, 임의 파일시스템 workspace는 제공하지 않음 |
 
 ---
 
