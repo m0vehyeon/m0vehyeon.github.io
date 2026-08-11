@@ -1,22 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const background = [
+const backgroundFacts = [
   { period: '2015.03 – 2021.02', title: '울산대학교 IT융합학과 학사', desc: '전산/컴퓨터 전공 · 3.67/4.5' },
-  { period: '2016.07 – 2018.04', title: '육군 병장 만기제대', desc: '' },
-  {
-    period: '2020.04 – 2020.05',
-    title: '네이버 캠퍼스 핵데이',
-    desc: '현직자 멘토와 팀 프로젝트 — Kotlin + ML로 음성인식 텍스트에서 일정을 추출해 구글 캘린더에 등록하는 Android 앱 개발',
-  },
-  {
-    period: '2020.05 – 2020.11',
-    title: '한이음 ICT 멘토링',
-    desc: 'Python으로 여행지 데이터 수집·크롤링 → Firebase 저장 → AWS EC2 + crontab 자동 갱신, 거리·추천순 스케줄링 알고리즘을 직접 구현한 자동 여행 스케줄링 Android 앱',
-  },
-  { period: '2020.06 – 2020.08', title: 'POSCO 청년 AI-Bigdata 아카데미', desc: '8개 팀 중 프로젝트 최우수상' },
+  { period: '2016.07 – 2018.04', title: '육군 병장 만기제대', desc: '강원도 양구 21사단' },
   { period: '2020.08', title: '정보처리기사 취득', desc: '' },
-  { period: '2021.01 – 2021.03', title: '삼성 청년 SW아카데미(SSAFY)', desc: '알고리즘·Java·웹 프로젝트' },
+  { period: '2020 – 2021', title: '어학', desc: 'TOEIC 645, TOEIC Speaking Level 6' },
+];
+
+const backgroundProjects = [
+  {
+    title: '네이버 캠퍼스 핵데이 — Speech Calendar',
+    period: '2020.04 – 2020.05',
+    role: '팀 프로젝트',
+    stack: 'Kotlin, ML, Android',
+    desc: '현직자 멘토링을 받으며 진행한 해커톤 프로젝트입니다. 음성인식으로 받아쓴 텍스트에서 날짜·시간·일정 정보를 추출해 구글 캘린더에 자동 등록하는 Android 앱을 팀원들과 기획·개발했습니다.',
+    tasks: ['음성 텍스트에서 일정 정보(날짜·시간·장소)를 추출하는 파싱 로직 구현', 'Google Calendar API 연동으로 추출된 일정 자동 등록', 'Kotlin 기반 Android 클라이언트 UI 개발'],
+  },
+  {
+    title: '한이음 ICT 멘토링 — U-RAVEL',
+    period: '2020.05 – 2020.11',
+    role: '팀 프로젝트',
+    stack: 'Python, Firebase, AWS EC2, Slack API',
+    desc: '자동 여행 스케줄링 Android 앱입니다. 여행지 데이터를 크롤링·정제해 매일 최신 상태로 유지하고, 사용자 조건에 맞는 일정을 자동으로 짜주는 백엔드 파이프라인을 직접 설계·구현했습니다.',
+    tasks: [
+      'Python으로 네이버 검색 API·구글 이미지를 크롤링해 여행지 데이터 수집, Firebase에 저장',
+      'AWS EC2 + crontab으로 매일 새벽 데이터 자동 최신화',
+      '거리순·추천순 여행 스케줄링 알고리즘 직접 구현',
+      '크롤링·서버 작업 실패 시 Slack API로 봇 알림이 오도록 장애 감지 구성',
+    ],
+  },
+  {
+    title: 'POSCO 청년 AI-Bigdata 아카데미',
+    period: '2020.06 – 2020.08',
+    role: '프로젝트 최우수상',
+    stack: '',
+    desc: 'AI·빅데이터 이론 학습과 팀 프로젝트를 병행하는 과정에 참여해, 8개 팀 중 최우수상을 받았습니다.',
+    tasks: [],
+  },
+  {
+    title: '삼성 청년 SW아카데미 (SSAFY)',
+    period: '2021.01 – 2021.03',
+    role: '',
+    stack: '',
+    desc: '알고리즘, Java, 웹 개발을 학습하고 팀 프로젝트를 진행하며 알고리즘 스터디를 병행했습니다.',
+    tasks: [],
+  },
 ];
 
 const career = [
@@ -24,64 +53,150 @@ const career = [
     title: 'Agent 연동 자동화 DevKit',
     period: '2026.08 – 현재',
     role: '주도',
-    stack: 'Java, CLI, YAML/JSON Schema, ADB, Android Instrumentation',
-    desc: '플러그인 기능 조사부터 계약 생성·승인·연동 코드 생성·실기기 검증까지 자동화하는 5단계 DevKit workflow를 설계·개발했습니다. 기능 후보 92개 중 19개를 Agent operation으로 계약화하고 195개 E2E 시나리오로 검증했습니다.',
+    stack: 'Java, CLI, YAML/JSON Schema, ADB, Android Instrumentation, HTML/CSS/JS',
+    desc: '플러그인의 사용자 기능을 조사해 Agent 계약 후보로 만들고, 담당자 승인부터 Android 연동 코드 생성, 실기기 검증까지 하나의 흐름으로 자동화하는 DevKit을 설계·개발했습니다. 플러그인마다 반복되던 수작업 Agent 연동을 규격화해 재사용 가능한 파이프라인으로 만드는 작업으로, Onboard·Approve·Integrate·Verify·E2E 5단계 workflow와 Contract 규격 설계를 직접 결정했습니다.',
+    tasks: [
+      '플러그인 사용자 기능 자동 탐색, Agent 노출 후보와 위험도 분류',
+      '기능·파라미터·위험·복원 정보를 담은 Contract 정의 및 Android 연동 코드 자동 생성',
+      '담당자가 후보를 검토·승인하는 로컬 Review Center 개발',
+      '승인된 작업만 실행하는 실기기 E2E 검증과 변경 설정 자동 복원 구현',
+    ],
+    result: '2개 플러그인의 기능 후보 92개 중 19개를 Agent operation으로 계약화, 195개 E2E 시나리오로 검증했습니다.',
   },
   {
     title: 'Android 네이티브 AI Agent Runtime',
     period: '2026.05 – 현재',
     role: '담당',
     stack: 'Kotlin, Jetpack Compose, Hilt, Coroutines/Flow, Ktor, ObjectBox, WorkManager',
-    desc: '자연어 요청을 분석해 플러그인을 탐색·실행하는 Agent Runtime을 개발했습니다. OpenHands SDK 분석을 벤치마킹해 Skill 규격(Tool 8개, SKILL.md 34개)을 설계했고, 7종 플러그인 연동을 검증하며 모델 비교로 실행 성공률을 75%→100%로 개선했습니다.',
+    desc: '사용자의 자연어 요청을 분석해 관련 플러그인을 찾고, 설치 확인·기능 탐색·실행 계획 생성·설정 적용까지 수행하는 Android 네이티브 Agent Runtime을 개발했습니다. 설계 방향은 정해져 있었고, 그 안에서 개발 범위를 전담했습니다.',
+    tasks: [
+      'Agent Loop, Conversation 상태 관리, Tool 호출 구조 구현',
+      'Tool Registry, Policy, Executor 설계 및 구현',
+      'OpenHands SDK 분석을 벤치마킹해 Skill 규격(Built-in Tool 8개, SKILL.md 34개) 설계',
+      '복수 Tool 실행과 사용자 승인 흐름, Tool 실행 취소 및 상태 복원 구현',
+    ],
+    result: '런처 플러그인 생태계 7종 연동을 검증했고, 2개 모델 비교에서 의도한 플러그인 실행 성공률을 75%에서 100%로 개선했습니다.',
   },
   {
     title: '자연어 기반 생성형 앱 플랫폼',
     period: '2026.02 – 2026.05',
-    role: '담당 (하네스 엔지니어링은 참여)',
-    stack: 'TypeScript, React Native, Expo, Kotlin, WorkManager',
-    desc: '자연어로 앱을 생성·수정하는 React Native 플랫폼을 개발했습니다. App Player·Safety Filter·API 연동을 담당했고, 200건 평가 corpus로 Safety Filter 정확도 99.9% 이상을 확인, 모델 비교로 생성 시간을 약 24.9% 단축했습니다.',
+    role: '담당 (하네스 엔지니어링 부분은 참여)',
+    stack: 'TypeScript, React Native, Expo, Expo Router, Zustand, TanStack Query, Kotlin, WorkManager',
+    desc: '사용자가 자연어로 필요한 앱을 요청하면 AI가 기획·테마·React Native 코드를 생성하고, 모바일에서 즉시 미리보기·수정·저장·공유할 수 있는 플랫폼을 개발했습니다.',
+    tasks: [
+      '요구사항 분석 → Plan·Theme 승인 → 생성·수정으로 이어지는 대화형 앱 제작 흐름 구현',
+      'JavaScript bundle·asset을 동적 실행하는 App Player 개발, SSE 기반 진행 상태 표시·중단 복구',
+      'Rule → 분류 모델 → LLM 단계적 적용 Safety Filter 설계 및 검증',
+      'REST API Client, 인증·백엔드 API 연동, 다국어 UI 개발',
+    ],
+    result: '2개 모델 12회 벤치마크로 생성 시간을 약 24.9% 단축했고, 200건 평가 corpus로 Safety Filter 정확도 99.9% 이상을 확인했습니다.',
   },
   {
     title: '온디바이스 AI 기능 검증 자동화 도구',
     period: '2024.02 – 2025.01',
     role: '담당',
-    stack: 'Python, PyQt5, ADB, OpenCV',
-    desc: '온디바이스 AI 기능을 자동 검증하는 Python GUI 도구를 개발했습니다. 테스트 실행부터 평가·리포트 생성까지 자동화했고, 4종 AI 기능을 3개 OS·3개 테스트 모드로 지원했습니다.',
+    stack: 'Python, PyQt5, ADB, Requests, openpyxl, Jinja2, OpenCV',
+    desc: '네이티브 앱의 온디바이스 AI 기능을 로컬 PC와 연결 단말에서 반복 검증할 수 있도록 독립 GUI 도구를 개발했습니다. 테스트 실행부터 평가·리포트 생성까지 전 과정을 자동화한, 사실상의 AI 기능 벤치마크 하네스입니다.',
+    tasks: [
+      'ADB instrumentation 테스트 자동 실행, 복수 단말 대상 테스트 분배 및 실행 상태 관리',
+      '테스트 데이터·Ground Truth 연동, 결과 후처리와 점수 계산 구현',
+      'HTML·Excel 리포트 자동 생성, 결과 조회·검색·내보내기 기능 개발',
+    ],
+    result: '4종 AI 기능을 Windows·Linux·macOS 3개 환경, 3개 테스트 모드로 지원했고, 결과·대기 화면 최대 300개를 관리했습니다.',
   },
   {
     title: '생성형 AI 프롬프트 개발·검증 웹 플랫폼',
     period: '2023.12 – 2025',
     role: '담당',
-    stack: 'TypeScript, React, Redux Toolkit, SSE',
-    desc: '생성형 AI 모델·프롬프트를 개발·검증하는 사내 웹 플랫폼을 개발했습니다. LLM 기반 결과 평가, 3개 모델 계열 비교, 멀티모달 기능을 구현하고 JavaScript 코드를 TypeScript로 전환했습니다.',
+    stack: 'TypeScript, React, Redux Toolkit, Redux-Saga, MUI, REST API, SSE, Jest',
+    desc: '생성형 AI 모델과 프롬프트를 개발·검증하고, 테스트케이스 실행부터 AI 평가와 결과 공유까지 지원하는 사내 웹 플랫폼을 개발했습니다.',
+    tasks: [
+      'LLM 기반 결과 평가와 CSV·Excel 출력 기능 개발',
+      'Prompt 작성·리뷰·배포 및 Gemini·GPT·Claude 등 3개 모델 계열 비교 기능 구현',
+      '텍스트·이미지·오디오 3종 입력 기반 멀티모달 기능 개발',
+      '기존 JavaScript 코드를 TypeScript 중심으로 전환·리팩토링',
+    ],
+    result: '',
   },
   {
     title: '게임 서비스 로그 분석 파이프라인',
     period: '2022.10 – 2023.05',
     role: '참여',
-    stack: 'Python, Apache Airflow, PySpark, AWS EMR/S3/Athena',
-    desc: '대규모 게임 로그를 분석 데이터로 변환하는 Airflow 파이프라인을 동료와 함께 개발·운영했습니다. 중복 작업 제거로 월 약 270시간 EMR 실행 시간, 일일 약 2.1TB S3 사용량을 절감했고 GDPR 처리 시간을 약 42% 단축했습니다.',
+    stack: 'Python, Apache Airflow, PySpark, AWS MWAA/EMR/S3/Athena/Glue, GitHub Actions',
+    desc: '게임 서비스에서 수집되는 대규모 로그를 S3·EMR·Athena 기반 분석 데이터로 변환하는 Airflow 파이프라인을 동료 개발자와 함께 개발하고 DEV·PRD 환경의 배포·운영을 담당했습니다.',
+    tasks: [
+      'GET·POST API 등 게임 로그 수집·전처리 Airflow DAG 개발·운영, PySpark·EMR 기반 로그 정제·통합',
+      'PRD·DEV 중복 파이프라인 통합 및 S3 Marking File 기반 동기화 구조 구현',
+      'Airflow 2 환경의 SubDAG을 TaskGroup으로 전환해 실행 안정성 개선',
+    ],
+    result: '중복 EMR 작업 제거로 월 약 270시간, 데이터 구조 개선으로 일일 약 2.1TB의 S3 사용량을 절감했고, GDPR 관련 처리 시간을 약 42% 단축했습니다.',
   },
   {
     title: '단말 성능 데이터 이관·정제 파이프라인',
     period: '2022.10 – 2023.05',
     role: '담당',
-    stack: 'Python, Apache Airflow, PySpark, AWS RDS/S3',
-    desc: '출시 전 단말 성능 데이터를 안전하게 활용하도록 Cross-account 이관·개인정보 정제 파이프라인을 개발했습니다.',
+    stack: 'Python, Apache Airflow, PySpark, AWS RDS/S3/EMR/Glue',
+    desc: '출시 전 단말의 성능 데이터를 분석 환경에서 안전하게 활용할 수 있도록 데이터 이관 및 개인정보 정제 파이프라인을 개발했습니다.',
+    tasks: [
+      '최신 RDS Snapshot 조회부터 S3 Export까지의 Airflow DAG 개발, Cross-account 전송 구조 구현',
+      '개인정보 포함 테이블 필터링 및 PySpark 기반 개인정보 컬럼 제거·Parquet 재생성',
+      '원본 보존 후 정제 데이터를 교체하는 장애 안전형 갱신 절차 설계',
+    ],
+    result: '',
   },
   {
-    title: '그 외 Android 프로젝트',
-    period: '2024.03 – 2026.03',
-    role: '주도/담당/참여',
-    stack: 'Kotlin, Jetpack Compose, Glance, MVVM',
-    desc: 'AI 기능 사용 데이터 수집·분석 시스템(담당), LLM 생성 정보 Widget POC(주도), FlipShot 커버 디스플레이 콘텐츠 편집(참여), GalaxyToShare 설정 공유·복원 앱(담당), Routine 프리셋 갤러리(주도)를 개발했습니다.',
+    title: 'AI 기능 사용 데이터 수집·분석 시스템 (Android 영역)',
+    period: '2025.10 – 2025.12',
+    role: '담당',
+    stack: 'Kotlin, Android Glance, MVVM, Coroutines/Flow, Room, DataStore, Ktor',
+    desc: '사내 사용성 테스트 과정에서 AI 기능의 사용 데이터를 개인정보 동의 하에 수집·분석하는 시스템의 Android 영역을 개발했습니다. Glance 기반 Privacy Display Widget과 Secure Log Viewer를 구현했고, 일반 로그와 보안 로그를 분리하는 이벤트 모델·SDK 구조 개선을 담당했습니다.',
+    tasks: [],
+    result: '',
+  },
+  {
+    title: 'LLM 생성 정보의 Widget 표현 (POC)',
+    period: '2025.09 – 2026.03',
+    role: '주도',
+    stack: 'Kotlin, Android Glance, ProtoLayout, LLM API',
+    desc: 'LLM이 생성한 정보를 Android Widget으로 표현하는 방식을 Glance·ProtoLayout 기반 POC로 검증했습니다. LLM 출력과 Widget UI를 연결하는 동적 구성 구조를 설계했습니다.',
+    tasks: [],
+    result: '',
+  },
+  {
+    title: 'FlipShot — 폴더블 커버 디스플레이 콘텐츠 편집 기능',
+    period: '2025.07 – 2025.09',
+    role: '참여',
+    stack: 'Kotlin, Jetpack Compose, ViewModel, Coroutines/Flow',
+    desc: 'Flip 5·6·7 3개 세대(One UI 7.0부터 지원)를 대상으로 커버 디스플레이에 사진·영상·문구·스티커를 표시하는 기능 중 편집 화면과 카메라·외부 디스플레이 연동, 비정상 종료 복구 일부를 담당했습니다.',
+    tasks: [],
+    result: '',
+  },
+  {
+    title: 'GalaxyToShare — 설정 공유·복원 Android 앱',
+    period: '2024.03 – 2025',
+    role: '담당',
+    stack: 'Kotlin, MVVM, Hilt, Coroutines/Flow, Retrofit, Room, Navigation Component',
+    desc: '사용자의 단말 환경 설정을 하나의 콘텐츠로 저장하고 다른 단말에 공유·복원하는 앱을 개발했습니다. 콘텐츠 탐색·생성·공유·적용 화면과 적용 전 상태를 저장해 원래대로 복원하는 안전장치를 구현했습니다.',
+    tasks: [],
+    result: '',
+  },
+  {
+    title: 'Routine 프리셋 갤러리',
+    period: '2024.03 – 2025',
+    role: '주도',
+    stack: 'Kotlin, MVVM, Hilt, Coroutines/Flow, Retrofit, Room, Intent/FileProvider',
+    desc: '사용자가 Routine 프리셋을 탐색·적용하고 직접 만든 Routine을 공유할 수 있는 기능 구조를 직접 설계·개발했습니다. 메인·상세·공유 화면과 좋아요·실시간 갱신 동기화, 단말·OS·국가 조건별 노출 처리를 구현하고 3차 검증까지 대응했습니다.',
+    tasks: [],
+    result: '',
   },
   {
     title: '입문 교육 및 CXI실 파견',
     period: '2021.09 – 2022.09',
     role: '',
     stack: '',
-    desc: '입사 후 사내 입문·개발자 교육을 이수하고, CXI실에 파견되어 갤럭시 고객경험 관련 업무를 수행했습니다.',
+    desc: '입사 후 사내 입문·개발자 교육을 이수하고, CXI실에 파견되어 그 기간 동안 갤럭시 고객경험 관련 업무를 수행했습니다.',
+    tasks: [],
+    result: '',
   },
 ];
 ---
@@ -109,7 +224,7 @@ const career = [
       <h2 id="background-h">배경 <span class="section-sub">입사 전, 2015 – 2021</span></h2>
       <ul class="bg-list">
         {
-          background.map((item) => (
+          backgroundFacts.map((item) => (
             <li>
               <span class="bg-period">{item.period}</span>
               <span class="bg-body">
@@ -120,6 +235,31 @@ const career = [
           ))
         }
       </ul>
+
+      <ol class="career-list bg-projects">
+        {
+          backgroundProjects.map((p) => (
+            <li>
+              <div class="career-item-head">
+                <h3>{p.title}</h3>
+                <span class="career-meta">
+                  {p.period}
+                  {p.role && <> · {p.role}</>}
+                </span>
+              </div>
+              <p class="career-item-desc">{p.desc}</p>
+              {p.tasks.length > 0 && (
+                <ul class="career-item-tasks">
+                  {p.tasks.map((t) => (
+                    <li>{t}</li>
+                  ))}
+                </ul>
+              )}
+              {p.stack && <p class="career-item-stack">{p.stack}</p>}
+            </li>
+          ))
+        }
+      </ol>
     </section>
 
     <section id="career" class="career" data-reveal aria-labelledby="career-h">
@@ -139,6 +279,14 @@ const career = [
                 </span>
               </div>
               <p class="career-item-desc">{p.desc}</p>
+              {p.tasks.length > 0 && (
+                <ul class="career-item-tasks">
+                  {p.tasks.map((t) => (
+                    <li>{t}</li>
+                  ))}
+                </ul>
+              )}
+              {p.result && <p class="career-item-result">{p.result}</p>}
               {p.stack && <p class="career-item-stack">{p.stack}</p>}
             </li>
           ))
@@ -154,10 +302,22 @@ const career = [
           <span class="career-meta">2026.07 – 현재</span>
         </div>
         <p class="career-item-desc">
-          Claude Code와 Codex를 병행해 개발 중인 개인 프로젝트입니다. 계층형 에이전트 지침 설계, 병렬 에이전트 실행 가드,
-          326개 Tool 실행 정책과 SHA-256 기반 Skill 공급망 관리, spec→plan→검증 루프(스펙 49건·플랜 53건)를 구축했고,
-          제품 파이프라인에서 Claude를 subprocess로 호출해 트렌드 스크리닝을 자동화했습니다. pnpm 모노레포, 약 5주간 434커밋.
+          Claude Code와 Codex를 병행해 개발 중인 개인 프로젝트입니다. 도구를 사용하는 데 그치지 않고, 에이전트가 실제로
+          어긋나는 지점을 관측해 지침·정책·검증 계층으로 교정해 왔습니다. pnpm 모노레포, 약 5주간 434커밋.
         </p>
+        <ul class="career-item-tasks">
+          <li>
+            에이전트 지침을 계층형으로 설계 — 루트 지침에 저장소 전역 계약만 두고 패키지별 스코프 지침 5개로 분리,
+            CLAUDE.md를 AGENTS.md 심볼릭 링크로 구성해 Claude Code와 Codex에 동일 규칙을 단일 소스로 주입
+          </li>
+          <li>
+            병렬 에이전트 실행 가드 구현 — 여러 에이전트가 같은 clone을 공유할 때 브랜치 전환이 다른 세션의 HEAD를 오염시키는
+            문제를 워크트리 헬퍼 스크립트와 post-checkout 훅으로 계층화
+          </li>
+          <li>326개 항목의 Tool 실행 허용 정책 구성, 외부 Skill을 소스 저장소·경로·SHA-256 해시로 고정하는 lock 기반 공급망 관리</li>
+          <li>spec → plan → task brief → 실행 → 리포트 → 리뷰 diff로 닫히는 검증 루프 운영(스펙 49건 · 플랜 53건)</li>
+          <li>제품 파이프라인에서 Claude를 subprocess로 호출해 트렌드 스크리닝·추출·판정 수행, 실제 장애 기반 재시도 전략 설계</li>
+        </ul>
         <p class="career-item-stack">TypeScript, pnpm workspace, React Native/Expo, Supabase(RLS), Vitest, Claude Code, Codex, MCP</p>
       </div>
     </section>
@@ -265,7 +425,7 @@ const career = [
 
   .bg-list {
     list-style: none;
-    margin: 0;
+    margin: 0 0 2rem;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -287,6 +447,10 @@ const career = [
   .bg-desc {
     color: var(--fg-muted);
   }
+  .bg-projects {
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--border);
+  }
 
   .career-note {
     color: var(--fg-muted);
@@ -299,7 +463,7 @@ const career = [
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
+    gap: 2rem;
   }
   .career-item-head {
     display: flex;
@@ -317,9 +481,25 @@ const career = [
     color: var(--fg-muted);
   }
   .career-item-desc {
-    margin: 0 0 0.35rem;
+    margin: 0 0 0.5rem;
     color: var(--fg-muted);
     line-height: 1.7;
+  }
+  .career-item-tasks {
+    margin: 0 0 0.5rem;
+    padding-left: 1.2rem;
+    color: var(--fg-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+  .career-item-tasks li {
+    margin: 0.2rem 0;
+  }
+  .career-item-result {
+    margin: 0 0 0.5rem;
+    color: var(--fg);
+    font-size: 0.92rem;
+    line-height: 1.65;
   }
   .career-item-stack {
     margin: 0;
