@@ -41,7 +41,8 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
         데이터 파이프라인 → AI 기능 검증 자동화 → Android 앱 → 생성형 앱 플랫폼 → Android 네이티브 AI Agent Runtime
       </p>
       <p class="career-desc">
-        UI부터 API·데이터 계층·네이티브 연동·검증 자동화까지 제품 전반을 개발했습니다.
+        UI부터 API·데이터 계층·네이티브 연동·검증 자동화까지 제품 전반을 개발했습니다.{' '}
+        <a href="/reports/career-detail">13개 프로젝트 전체 역할·성과 보기 →</a>
       </p>
     </section>
 
@@ -146,6 +147,14 @@ const reports = (await getCollection('reports', ({ data }) => !data.draft)).sort
     color: var(--fg-muted);
     margin: 0;
     line-height: 1.7;
+  }
+  .career-desc a {
+    color: var(--link);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .career-desc a:hover {
+    text-decoration: underline;
   }
 
   .contact {
