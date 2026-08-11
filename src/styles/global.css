@@ -1,25 +1,17 @@
 :root {
-  --bg: #ffffff;
-  --fg: #1a1f24;
-  --fg-muted: #57606a;
-  --border: #d0d7de;
-  --code-bg: #f6f8fa;
-  --quote-bg: #f6f8fa;
-  --link: #0969da;
-  --link-hover: #0550ae;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1117;
-    --fg: #e6edf3;
-    --fg-muted: #8b949e;
-    --border: #30363d;
-    --code-bg: #161b22;
-    --quote-bg: #161b22;
-    --link: #58a6ff;
-    --link-hover: #79c0ff;
-  }
+  --bg: #0a0e14;
+  --bg-elevated: #10161f;
+  --fg: #e6edf3;
+  --fg-muted: #8b949e;
+  --border: #1f2733;
+  --code-bg: #0f1520;
+  --quote-bg: #0f1520;
+  --link: #2dd4bf;
+  --link-hover: #5eead4;
+  --accent: #2dd4bf;
+  --accent-soft: rgba(45, 212, 191, 0.14);
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 * {
