@@ -209,11 +209,12 @@ const career = [
 
 <BaseLayout title="이동현 — Android / AI Agent Engineer">
   <nav class="quicknav" aria-label="섹션 이동">
-    <a href="#background">배경</a>
-    <a href="#career">경력</a>
-    <a href="#personal">개인 프로젝트</a>
-    <a href="#skills">기술 스택</a>
-    <a href="#contact">Contact</a>
+    <div class="quicknav-inner">
+      <a href="#background">배경</a>
+      <a href="#career">경력</a>
+      <a href="#skills">기술 스택</a>
+      <a href="#contact">Contact</a>
+    </div>
   </nav>
 
   <main>
@@ -375,24 +376,34 @@ const career = [
 <style>
   .quicknav {
     position: sticky;
-    top: 0;
+    top: 1rem;
     z-index: 10;
     display: flex;
-    gap: 1.25rem;
-    padding: 0.9rem 1.25rem;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(6px);
-    border-bottom: 1px solid var(--border);
-    font-size: 0.85rem;
+    justify-content: center;
+    padding: 0 1.25rem;
+    pointer-events: none;
+  }
+  .quicknav-inner {
+    pointer-events: auto;
+    display: flex;
+    gap: 1.1rem;
+    padding: 0.65rem 1.4rem;
+    background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    max-width: calc(100vw - 2rem);
     overflow-x: auto;
     white-space: nowrap;
   }
-  .quicknav a {
+  .quicknav-inner a {
     color: var(--fg-muted);
     text-decoration: none;
   }
-  .quicknav a:hover {
-    color: var(--link);
+  .quicknav-inner a:hover {
+    color: var(--accent);
   }
 
   main {
