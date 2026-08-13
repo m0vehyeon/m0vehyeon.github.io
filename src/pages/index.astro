@@ -356,58 +356,60 @@ const skills = [
       </ol>
     </section>
 
-    <section id="career" class="career" data-reveal aria-labelledby="career-h">
-      <h2 id="career-h">경력 <span class="section-sub">삼성전자 MX사업부 · 2021.09 – 현재 (약 5년)</span></h2>
-      <p class="career-note">
-        미출시·사내 전용 프로젝트는 코드네임 대신 일반명으로 표기했습니다. 최신순입니다.
-      </p>
-      <ol class="career-list">
-        {
-          career.map((p) => (
-            <li>
-              <div class="career-item-head">
-                <h3>{p.title}</h3>
-                <span class="career-meta">
-                  {p.period}
-                  {p.role && !splitRole(p.role) && <> · {p.role}</>}
-                </span>
-                {p.role && splitRole(p.role) && (
-                  <span class={`role-badge role-${splitRole(p.role)!.cls}`}>
-                    {splitRole(p.role)!.word}
-                    {splitRole(p.role)!.rest && <span class="role-extra"> {splitRole(p.role)!.rest}</span>}
+    <section id="career" class="career full-bleed" data-reveal aria-labelledby="career-h">
+      <div class="full-bleed-inner">
+        <h2 id="career-h">경력 <span class="section-sub">삼성전자 MX사업부 · 2021.09 – 현재 (약 5년)</span></h2>
+        <p class="career-note">
+          미출시·사내 전용 프로젝트는 코드네임 대신 일반명으로 표기했습니다. 최신순입니다.
+        </p>
+        <ol class="career-list">
+          {
+            career.map((p) => (
+              <li>
+                <div class="career-item-head">
+                  <h3>{p.title}</h3>
+                  <span class="career-meta">
+                    {p.period}
+                    {p.role && !splitRole(p.role) && <> · {p.role}</>}
                   </span>
+                  {p.role && splitRole(p.role) && (
+                    <span class={`role-badge role-${splitRole(p.role)!.cls}`}>
+                      {splitRole(p.role)!.word}
+                      {splitRole(p.role)!.rest && <span class="role-extra"> {splitRole(p.role)!.rest}</span>}
+                    </span>
+                  )}
+                </div>
+                <p class="career-item-desc">{p.desc}</p>
+                {p.tasks.length > 0 && (
+                  <ul class="career-item-tasks">
+                    {p.tasks.map((t) => (
+                      <li>{t}</li>
+                    ))}
+                  </ul>
                 )}
-              </div>
-              <p class="career-item-desc">{p.desc}</p>
-              {p.tasks.length > 0 && (
-                <ul class="career-item-tasks">
-                  {p.tasks.map((t) => (
-                    <li>{t}</li>
-                  ))}
-                </ul>
-              )}
-              {p.stats.length > 0 && (
-                <ul class="career-item-stats">
-                  {p.stats.map((s) => (
-                    <li>
-                      <span class="stat-value">{s.value}</span>
-                      <span class="stat-label">{s.label}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {p.result && <p class="career-item-result">{p.result}</p>}
-              {p.stack && (
-                <ul class="tag-list">
-                  {p.stack.split(', ').map((tag) => (
-                    <li class="tag">{tag}</li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))
-        }
-      </ol>
+                {p.stats.length > 0 && (
+                  <ul class="career-item-stats">
+                    {p.stats.map((s) => (
+                      <li>
+                        <span class="stat-value">{s.value}</span>
+                        <span class="stat-label">{s.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {p.result && <p class="career-item-result">{p.result}</p>}
+                {p.stack && (
+                  <ul class="tag-list">
+                    {p.stack.split(', ').map((tag) => (
+                      <li class="tag">{tag}</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+      </div>
     </section>
 
     <section id="skills" class="skills" data-reveal aria-labelledby="skills-h">
@@ -537,6 +539,21 @@ const skills = [
     font-size: 0.85rem;
     font-weight: 400;
     color: var(--fg-muted);
+  }
+
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+  .full-bleed-inner {
+    max-width: 72ch;
+    margin: 0 auto;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .career.full-bleed {
+    background: var(--bg-section);
   }
 
   .bg-list {

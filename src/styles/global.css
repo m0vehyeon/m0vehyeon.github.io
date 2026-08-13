@@ -2,6 +2,7 @@
   color-scheme: dark;
   --bg: #0a0e14;
   --bg-elevated: #10161f;
+  --bg-section: color-mix(in srgb, var(--bg-elevated) 55%, var(--bg));
   --fg: #e6edf3;
   --fg-muted: #8b949e;
   --border: #1f2733;
