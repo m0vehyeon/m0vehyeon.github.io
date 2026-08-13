@@ -430,8 +430,10 @@ const skills = [
       </div>
     </section>
 
-    <footer id="contact" class="contact" data-reveal>
-      <a href="mailto:ehdgus4166@gmail.com">ehdgus4166@gmail.com</a>
+    <footer id="contact" class="contact full-bleed" data-reveal>
+      <div class="full-bleed-inner contact-inner">
+        <a href="mailto:ehdgus4166@gmail.com">ehdgus4166@gmail.com</a>
+      </div>
     </footer>
   </main>
 </BaseLayout>
@@ -773,18 +775,23 @@ const skills = [
   }
 
   .contact {
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .contact.full-bleed {
+    background: var(--bg-elevated);
+  }
+  .contact-inner {
     display: flex;
     gap: 0.6rem;
     align-items: center;
     font-size: 0.9rem;
     color: var(--fg-muted);
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
   }
-  .contact a {
+  .contact-inner a {
     color: var(--fg-muted);
   }
-  .contact a:hover {
+  .contact-inner a:hover {
     color: var(--link);
   }
 
