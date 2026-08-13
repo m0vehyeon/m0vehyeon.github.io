@@ -6,7 +6,7 @@ const reports = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(), // 카드에 쓸 한 줄
-    proves: z.string(), // 이 리포트가 증명하는 공고 요건
+    proves: z.string(), // 이 리포트가 증명하는 역량
     date: z.coerce.date(),
     order: z.number(), // 랜딩 카드 정렬
     draft: z.boolean().default(false),
